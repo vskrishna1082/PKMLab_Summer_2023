@@ -1,0 +1,24 @@
+units lj
+dimension 3
+boundary p p p
+
+atom_style bond
+pair_style lj/cut 2.5
+bond_style harmonic
+read_data atomsfile.dat
+
+thermo 100
+thermo_style custom step temp pe press vol lx density
+dump 2 all custom 10 dump.min.lammpstrj id x y z
+
+fix mynve all nve
+minimize 1.0e-10 1.0e-10 10000 10000
+
+
+# dump mydmp all atom 10 dump.lammpstrj
+
+# fix mynve all nve
+# fix mylgv all langevin 1.0 1.0 0.1 1530917
+# neigh_modify every 1 delay 5 check yes
+# timestep 0.005
+# run 100000

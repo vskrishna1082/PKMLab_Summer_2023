@@ -1,0 +1,27 @@
+units lj
+dimension 3
+boundary p p p
+
+atom_style full
+pair_style lj/cut 2.5
+bond_style harmonic
+read_data spcyl.data
+
+pair_coeff 1 1 1.0 1.0 2.5
+group g_spcyl type 1
+fix 1 g_spcyl rigid/nvt molecule temp 13.0 13.0 4.0
+# fix 1 g_spcyl rigid/nve molecule langevin 1.0 1.0 0.1 1321432
+
+thermo 100
+thermo_style custom step temp pe press vol lx density
+
+dump mymindump all custom 50 dump.min.lammpstrj id x y z
+minimize 0 0 10000 10000
+undump mymindump
+
+dump mydmp all custom 100 dump.lammpstrj id x y z
+
+fix 1 g_spcyl rigid/nvt molecule temp 13.0 13.0 4.0
+neigh_modify every 1 delay 5 check yes
+timestep 0.005
+run 10000

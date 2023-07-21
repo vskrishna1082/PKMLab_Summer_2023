@@ -1,0 +1,17 @@
+units lj
+dimension 3
+boundary p p p
+
+atom_style atomic
+read_data random.data
+pair_style lj/cut 2.5
+pair_coeff 1 1 1.0 1.0 2.5
+
+mass 1 1.0
+
+thermo 10
+thermo_style custom step temp pe press vol lx density
+dump mydump all custom 10 dump.min.lammpstrj id x y z
+
+fix mynve all nve
+minimize 1.0e-10 1.0e-10 10000 10000

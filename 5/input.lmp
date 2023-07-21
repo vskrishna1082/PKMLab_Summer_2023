@@ -1,0 +1,26 @@
+units lj
+dimension 3
+boundary p p p
+
+atom_style full
+pair_style lj/cut 2.5
+bond_style harmonic
+read_data polymer.data
+
+pair_coeff 1 1 1.0 1.0 2.5
+
+thermo 100
+thermo_style custom step temp pe press vol lx density
+dump mymindump all custom 10 dump.min.lammpstrj id x y z
+
+fix mynve all nve
+minimize 0 0 10000 10000
+
+undump mymindump
+dump mydmp all custom 100 dump.lammpstrj id x y z
+
+fix mynve all nve
+fix mylgv all langevin 1.0 1.0 0.1 1321432
+neigh_modify every 1 delay 5 check yes
+timestep 0.005
+run 10000

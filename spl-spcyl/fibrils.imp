@@ -1,0 +1,10 @@
+tolerance 2.0
+
+filetype xyz
+
+output fibrils.xyz
+
+structure fibril.xyz
+  number 40
+  inside box 0.0 0.0 0.0 200.0 200.0 200.0
+end structure
